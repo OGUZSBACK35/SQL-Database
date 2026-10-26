@@ -1,0 +1,9 @@
+ SELECT * FROM CUSTOMERS
+
+
+ UPDATE CUSTOMERS
+ SET NATION = 'TR', AGE = DATEDIFF (YEAR, BIRTHDATE, GETDATE())
+ --BIRTHDATE ve Şimdiki Zaman Aralığındaki (GETDATE) Farkı Yıl Olarak Alıp Güncelleyecek
+
+ SELECT
+ DATEDIFF (YEAR, '1999-08-03', GETDATE()) --GATEDATE Şimdiki Tarihi Alır.

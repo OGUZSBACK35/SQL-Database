@@ -1,0 +1,8 @@
+SELECT CITY,
+COUNT (DISTINCT CUSTOMERNAME) AS UNIQECUSTOMER, -- Burası Tekil Müşteri Sayısını Gösterecek
+COUNT(DISTINCT FICHENO) CUSTOMERCOUNT, --
+COUNT(*) ITEMCOUNT --DISTINCT ile Tekrarı Önledik ve Mağazadaki Müşteri Sayısını Bulduk, Sonra COUNT(*) ile Bütün İşlemleri Gördük
+FROM SALES
+WHERE MONTHNAME_ = '01.OCAK'
+GROUP BY CITY
+ORDER BY CITY 
