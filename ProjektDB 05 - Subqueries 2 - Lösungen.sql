@@ -24,7 +24,8 @@ USE ProjektDB;
 --		(20 Zeilen)
 
 SELECT pro_id, aufgabe,
-	(SELECT nachname FROM Mitarbeiter m
+	(SELECT nachname
+	 FROM Mitarbeiter m
 	 WHERE m.id = a.mit_id) AS nachname
 FROM Arbeit a
 ORDER BY pro_id ASC, aufgabe ASC;
@@ -93,7 +94,7 @@ SELECT mit_id,
 	(SELECT nachname FROM Mitarbeiter m
 	 WHERE m.id = g.mit_id) AS nachname,
 	gehalt
-FROM Gehalt g
+FROM Gehalt g;
 
 -- Aufgabe 5.13
 --
@@ -113,11 +114,14 @@ FROM Gehalt g
 --		(15 Zeilen)
 
 SELECT mit_id, 
-	(SELECT nachname FROM Mitarbeiter m
+	(SELECT nachname 
+	 FROM Mitarbeiter m
 	 WHERE m.id = g.mit_id) AS nachname,
 	gehalt,
-	(SELECT AVG(gehalt) FROM Gehalt) AS durchschnitt,
-	gehalt - (SELECT AVG(gehalt) FROM Gehalt) AS differenz
+		(SELECT AVG(gehalt) 
+		 FROM Gehalt) AS durchschnitt,
+	gehalt - (SELECT AVG(gehalt) 
+			  FROM Gehalt) AS differenz
 FROM Gehalt g
 
 -- Aufgabe 5.14
@@ -135,13 +139,16 @@ FROM Gehalt g
 --      Probst    Diagnose
 
 SELECT nachname,
-	(SELECT bezeichnung FROM Abteilung a
+	(SELECT bezeichnung 
+	 FROM Abteilung a
 	 WHERE a.id = m.abt_id) AS abteilung
 FROM Mitarbeiter m
 WHERE id IN (
-	SELECT mit_id FROM Arbeit
-	WHERE pro_id IN (
-		SELECT id FROM Projekt
-		WHERE bezeichnung = 'Apollo'
+		SELECT mit_id 
+		FROM Arbeit
+		WHERE pro_id IN (
+			SELECT id 
+			FROM Projekt
+			WHERE bezeichnung = 'Apollo'
 	)
 );

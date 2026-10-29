@@ -1,5 +1,4 @@
--- Nutzen Sie die Datenbank ProjektDB, 
--- um die folgenden Aufgaben zu lösen:
+USE ProjektDB;
 
 
 -- ======================
@@ -14,22 +13,26 @@
 --
 --      id    nachname
 --      2581  Kaufmann
-
-
+SELECT id, nachname
+FROM Mitarbeiter
+WHERE id = (SELECT MIN(id) FROM Mitarbeiter);
+---------------------------------------------------------------------
 
 -- Aufgabe 5.2
 --
 -- Nennen Sie die Abteilungsnummern der Mitarbeiter, die 
--- in Projekt 3 arbeiten. Nutzen Sie eine einfache 
+-- in Projekt p3 arbeiten. Nutzen Sie eine einfache 
 -- Unterabfrage.
 --
 --      abt_id
---      2
---      2
---      3
---      5
-
-
+--      a2
+--      a2
+--      a3
+--      a5
+SELECT abt_id
+FROM Mitarbeiter
+WHERE id IN (SELECT mit_id FROM Arbeit WHERE Arbeit.pro_id = 'p3');
+------------------------------------------------------------------------------------------
 
 -- Aufgabe 5.3
 --
@@ -44,7 +47,9 @@
 --      22222
 --      28559
 --      29346
-
+SELECT mit_id
+FROM Gehalt
+WHERE gehalt > (SELECT AVG(Gehalt) FROM Gehalt);
 
 
 -- Aufgabe 5.4
@@ -55,11 +60,13 @@
 -- Unterabfrage.
 --
 --      pro_id
---      1
---      3
---      4
---      5
-
+--      p1
+--      p3
+--      p4
+--      p5
+SELECT  pro_id
+FROM Arbeit
+WHERE mit_id < (SELECT id  FROM Mitarbeiter WHERE nachname = 'Müller'); 
 
 
 -- Aufgabe 5.5
@@ -72,8 +79,9 @@
 --      Krüger    Martin
 --      Schubert  Rolf
 --      Albrecht  Lena
-
-
+SELECT nachname, vorname
+FROM Mitarbeiter
+WHERE abt_id IN (SELECT abt_id FROM Abteilung WHERE ort = 'Ulm');
 
 -- Aufgabe 5.6
 --
@@ -83,8 +91,9 @@
 --
 --      mit_id
 --      2581
-
-
+SELECT mit_id 
+FROM Arbeit
+WHERE einst_dat = (SELECT MAX (einst_dat) FROM Arbeit WHERE aufgabe = 'Projektleiter');
 
 -- Aufgabe 5.7
 --
@@ -97,7 +106,17 @@
 --      Krüger
 --      Mozer
 --      Probst
-
+SELECT nachname
+FROM Mitarbeiter
+WHERE id IN 
+		(SELECT mit_id 
+		FROM Arbeit 
+		WHERE pro_id IN (
+							SELECT id
+							FROM Projekt
+							WHERE bezeichnung = 'Apollo'
+						)
+		);
 
 
 -- Aufgabe 5.8
@@ -107,9 +126,23 @@
 -- Nutzen Sie drei verschachtelte Unterabfragen.
 --
 --      id  bezeichnung
---      1   Beratung
---      2   Diagnose
---      3   Freigabe
---      5   Verkauf
+--      a1  Beratung
+--      a2  Diagnose
+--      a3  Freigabe
+--      a5  Verkauf
 
-
+SELECT id, bezeichnung
+FROM Abteilung
+WHERE id IN (
+    SELECT abt_id
+    FROM Mitarbeiter
+    WHERE id IN (
+        SELECT mit_id
+        FROM Arbeit
+        WHERE pro_id IN (
+            SELECT id
+            FROM Projekt
+            WHERE bezeichnung = 'Apollo'
+        )
+    )
+);
