@@ -39,7 +39,7 @@ FROM Abteilung a1
 SELECT a1.*, a2.*
 FROM Abteilung a1
 	INNER JOIN Abteilung a2 ON a1.ort = a2.ort
-WHERE a1.id <> a2.id;
+WHERE a1.id <> a2.id; -- für ungleich (!=) so machen
 
 -- Aufgabe 7.3
 --
@@ -63,7 +63,7 @@ WHERE a1.id > a2.id;
 -- Kollegen oder eine Kollegin aus derselben Abteilung 
 -- in ihrem Wohnort haben (Stichwort Fahrgemeinschaft).
 --
---      id     abt_id  nachname  ort
+--      id     abt_id  nachname  orta
 --      5765   3       Schäfer   Landshut
 --      10102  3       Huber     Landshut
 --      12121  4       Richter   München
